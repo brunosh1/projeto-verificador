@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Status dos Sites</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Status dos Websites</h1>
+
+    <div id="resultados"></div>
+
+    <script>
+        fetch('resultados.json')
+            .then(resposta => resposta.json())
+            .then(dados => {
+                const container = document.getElementById('resultados');
+
+                dados.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = item.ok ? 'ok' : 'erro';
+
+                    div.innerHTML = `<strong>${item.site}</strong> | ${item.status} | ${item.data_hora}`;
+
+                    container.appendChild(div);
+                });
+            })
+            .catch(erro => {
+                document.getElementById('resultados').innerHTML = "Erro ao carregar os dados.";
+                console.error("Erro:", erro);
+            });
+    </script>
+</body>
+</html>
